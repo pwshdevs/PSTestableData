@@ -10,7 +10,15 @@ jobs:
         os: [ubuntu-latest, windows-latest, macOS-latest]
     steps:
     - uses: actions/checkout@v1
+    - name: Install and cache PowerShell modules
+      id: psmodulecache
+      uses: potatoqualitee/psmodulecache@v6.2.1
+      with:
+        modules-to-cache: BuildHelpers, Pester, psake, PowerShellBuild, PSScriptAnalyzer, powershell-yaml
+    - name: Build
+      shell: pwsh
+      run: ./build.ps1 -Task Build
     - name: Test
       shell: pwsh
-      run: ./build.ps1 -Task Test -Bootstrap
+      run: ./build.ps1 -Task Test
 
